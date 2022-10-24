@@ -9,21 +9,27 @@
 /* Begin PBXBuildFile section */
 		5965FAAE2906E0FA009D4547 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAAD2906E0FA009D4547 /* AppDelegate.swift */; };
 		5965FAB02906E0FA009D4547 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAAF2906E0FA009D4547 /* SceneDelegate.swift */; };
-		5965FAB22906E0FA009D4547 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAB12906E0FA009D4547 /* ViewController.swift */; };
 		5965FAB52906E0FA009D4547 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5965FAB32906E0FA009D4547 /* Main.storyboard */; };
 		5965FAB72906E100009D4547 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5965FAB62906E100009D4547 /* Assets.xcassets */; };
 		5965FABA2906E100009D4547 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5965FAB82906E100009D4547 /* LaunchScreen.storyboard */; };
+		5965FAC62906E55B009D4547 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAC52906E55B009D4547 /* Employee.swift */; };
+		5965FAC82906E573009D4547 /* DTOModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAC72906E573009D4547 /* DTOModel.swift */; };
+		5965FACC2906E6A1009D4547 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FACB2906E6A1009D4547 /* ListViewController.swift */; };
+		5965FACE2906E6C0009D4547 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FACD2906E6C0009D4547 /* ListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5965FAAA2906E0FA009D4547 /* AvitoEmployees.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AvitoEmployees.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5965FAAD2906E0FA009D4547 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5965FAAF2906E0FA009D4547 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5965FAB12906E0FA009D4547 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5965FAB42906E0FA009D4547 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5965FAB62906E100009D4547 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5965FAB92906E100009D4547 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5965FABB2906E100009D4547 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5965FAC52906E55B009D4547 /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		5965FAC72906E573009D4547 /* DTOModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOModel.swift; sourceTree = "<group>"; };
+		5965FACB2906E6A1009D4547 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		5965FACD2906E6C0009D4547 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,50 @@
 		5965FAAC2906E0FA009D4547 /* AvitoEmployees */ = {
 			isa = PBXGroup;
 			children = (
-				5965FAAD2906E0FA009D4547 /* AppDelegate.swift */,
-				5965FAAF2906E0FA009D4547 /* SceneDelegate.swift */,
-				5965FAB12906E0FA009D4547 /* ViewController.swift */,
+				5965FAC12906E44F009D4547 /* SupportingFiles */,
+				5965FAC22906E466009D4547 /* ListModule */,
 				5965FAB32906E0FA009D4547 /* Main.storyboard */,
 				5965FAB62906E100009D4547 /* Assets.xcassets */,
 				5965FAB82906E100009D4547 /* LaunchScreen.storyboard */,
 				5965FABB2906E100009D4547 /* Info.plist */,
 			);
 			path = AvitoEmployees;
+			sourceTree = "<group>";
+		};
+		5965FAC12906E44F009D4547 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				5965FAAF2906E0FA009D4547 /* SceneDelegate.swift */,
+				5965FAAD2906E0FA009D4547 /* AppDelegate.swift */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		5965FAC22906E466009D4547 /* ListModule */ = {
+			isa = PBXGroup;
+			children = (
+				5965FAC92906E58C009D4547 /* View */,
+				5965FACA2906E597009D4547 /* Model */,
+			);
+			path = ListModule;
+			sourceTree = "<group>";
+		};
+		5965FAC92906E58C009D4547 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5965FACB2906E6A1009D4547 /* ListViewController.swift */,
+				5965FACD2906E6C0009D4547 /* ListTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5965FACA2906E597009D4547 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5965FAC52906E55B009D4547 /* Employee.swift */,
+				5965FAC72906E573009D4547 /* DTOModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +179,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5965FAB22906E0FA009D4547 /* ViewController.swift in Sources */,
 				5965FAAE2906E0FA009D4547 /* AppDelegate.swift in Sources */,
+				5965FACC2906E6A1009D4547 /* ListViewController.swift in Sources */,
+				5965FAC82906E573009D4547 /* DTOModel.swift in Sources */,
+				5965FAC62906E55B009D4547 /* Employee.swift in Sources */,
 				5965FAB02906E0FA009D4547 /* SceneDelegate.swift in Sources */,
+				5965FACE2906E6C0009D4547 /* ListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
