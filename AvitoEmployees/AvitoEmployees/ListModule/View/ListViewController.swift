@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ListViewController: UIViewController {
     
@@ -18,9 +19,11 @@ class ListViewController: UIViewController {
         static let alertMessage = "Getting data ended with an error \n"
         static let alertTitle = "Error"
         static let alertAction = "Ok"
+        static let employeeEntityName = "Employee"
     }
     
-    private var employees: [Employee] = []
+    private var employees: [EmployeeModel] = []
+    private let coreDS = CoreDataStack()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -43,10 +46,14 @@ class ListViewController: UIViewController {
                 let company = model.company
                 let employees = company.employees
                 employees.forEach { employee in
-                    let model = Employee(name: employee.name,
+                    let model = EmployeeModel(name: employee.name,
                                          phoneNumber: employee.phoneNumber,
                                          skills: employee.skills)
                     self?.employees.append(model)
+                    
+                    self?.saveEmployee(name: employee.name,
+                                       phoneNumber: employee.phoneNumber,
+                                       skills: employee.skills)
                     
                     DispatchQueue.main.async {
                         self?.tableView.reloadData()
@@ -54,7 +61,7 @@ class ListViewController: UIViewController {
                 }
                 
             case .failure(let error):
-                DispatchQueue.main.async { [weak self] in
+                DispatchQueue.main.async {
                     self?.showAlert(message: Literal.alertMessage + error.localizedDescription)
                 }
             }
@@ -66,6 +73,32 @@ class ListViewController: UIViewController {
         let action = UIAlertAction(title: Literal.alertAction, style: .default)
         alert.addAction(action)
         self.present(alert, animated: true)
+    }
+    
+    private func getContext() -> NSManagedObjectContext {
+        coreDS.persistentContainer.viewContext
+    }
+    
+    private func saveEmployee(name: String, phoneNumber: String, skills: [String]) {
+        let context = getContext()
+        guard let entity = NSEntityDescription.entity(forEntityName: Employee.description(), in: context) else { return }
+        let taskObject = Employee(entity: entity, insertInto: context)
+        taskObject.name = name
+        taskObject.phoneNumber = phoneNumber
+        taskObject.skills = skills
+        
+        do {
+            try context.save()
+            DispatchQueue.main.async { [weak self] in
+                self?.showAlert(message: "Data saved!")
+            }
+        } catch let error as NSError {
+            DispatchQueue.main.async { [weak self] in
+                self?.showAlert(message: error.localizedDescription)
+            }
+            
+            //print(error.localizedDescription)
+        }
     }
 }
 
