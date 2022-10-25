@@ -7,6 +7,19 @@
 
 import Foundation
 
-struct DTOModel: Codable {
+struct Company: Decodable {
+    
+    let company: String
+    let name: String
+    let employees: [EmployeeData]
     
 }
+
+struct EmployeeData: Decodable {
+    
+    let name: String
+    let phoneNumber: String
+    let skills: [String]
+    
+}
+
