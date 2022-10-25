@@ -39,10 +39,8 @@ class ListViewController: UIViewController {
                                          skills: employee.skills)
                     self?.employees.append(model)
                     
-                    print("\(model.name) добавлен в сотрудники!")
-                    
                     DispatchQueue.main.async {
-                     //вызвать метод по обновлению вьюшек
+                        self?.tableView.reloadData()
                     }
                 }
                 
@@ -59,10 +57,16 @@ class ListViewController: UIViewController {
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        employees.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
+        
+        let employee = self.employees[indexPath.row]
+        
+        cell.setName(employee.name)
+        cell.setPhoneNumber(employee.phoneNumber)
+        cell.setSkills(employee.skills)
         
         return cell
     }

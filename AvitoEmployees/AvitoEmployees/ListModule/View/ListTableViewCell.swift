@@ -7,13 +7,19 @@
 
 import UIKit
 
+protocol IListTableViewCell {
+    func setName(_ name: String)
+    func setPhoneNumber(_ phoneNumber: String)
+    func setSkills(_ skills: [String])
+}
+
 class ListTableViewCell: UITableViewCell {
     
     static let identifier = "Cell"
     
     private enum Literal {
         static let phoneNumberText = "Phone number: "
-        static let skilsText = "Skils: "
+        static let skillsText = "Skils: "
     }
     
     private enum Metrics {
@@ -22,21 +28,21 @@ class ListTableViewCell: UITableViewCell {
         static let topSpacing: CGFloat = 10
     }
     
-    private lazy var name: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name"
         return label
     }()
     
-    private lazy var phoneNumber: UILabel = {
+    private lazy var phoneNumberLabel: UILabel = {
         let label = UILabel()
         label.text = Literal.phoneNumberText
         return label
     }()
     
-    private lazy var skils: UILabel = {
+    private lazy var skillsLabel: UILabel = {
         let label = UILabel()
-        label.text = Literal.skilsText
+        label.text = Literal.skillsText
         return label
     }()
     
@@ -51,28 +57,45 @@ class ListTableViewCell: UITableViewCell {
     }
     
     private func addViews() {
-        self.addSubview(name)
-        self.addSubview(phoneNumber)
-        self.addSubview(skils)
+        self.addSubview(nameLabel)
+        self.addSubview(phoneNumberLabel)
+        self.addSubview(skillsLabel)
     }
     
     private func setupViews() {
-        name.translatesAutoresizingMaskIntoConstraints = false
-        name.topAnchor.constraint(equalTo: self.topAnchor, constant: Metrics.standartSpacing).isActive = true
-        name.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.standartSpacing).isActive = true
-        name.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.standartSpacing).isActive = true
-        name.heightAnchor.constraint(equalToConstant: Metrics.heightOfLabel).isActive = true
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Metrics.standartSpacing).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.standartSpacing).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.standartSpacing).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: Metrics.heightOfLabel).isActive = true
         
-        phoneNumber.translatesAutoresizingMaskIntoConstraints = false
-        phoneNumber.topAnchor.constraint(equalTo: name.bottomAnchor, constant: Metrics.topSpacing).isActive = true
-        phoneNumber.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.standartSpacing).isActive = true
-        phoneNumber.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.standartSpacing).isActive = true
-        phoneNumber.heightAnchor.constraint(equalToConstant: Metrics.heightOfLabel).isActive = true
+        phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        phoneNumberLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: Metrics.topSpacing).isActive = true
+        phoneNumberLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.standartSpacing).isActive = true
+        phoneNumberLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.standartSpacing).isActive = true
+        phoneNumberLabel.heightAnchor.constraint(equalToConstant: Metrics.heightOfLabel).isActive = true
         
-        skils.translatesAutoresizingMaskIntoConstraints = false
-        skils.topAnchor.constraint(equalTo: phoneNumber.bottomAnchor, constant: Metrics.topSpacing).isActive = true
-        skils.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.standartSpacing).isActive = true
-        skils.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.standartSpacing).isActive = true
-        skils.heightAnchor.constraint(equalToConstant: Metrics.heightOfLabel).isActive = true
+        skillsLabel.translatesAutoresizingMaskIntoConstraints = false
+        skillsLabel.topAnchor.constraint(equalTo: phoneNumberLabel.bottomAnchor, constant: Metrics.topSpacing).isActive = true
+        skillsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Metrics.standartSpacing).isActive = true
+        skillsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.standartSpacing).isActive = true
+        skillsLabel.heightAnchor.constraint(equalToConstant: Metrics.heightOfLabel).isActive = true
+    }
+}
+
+// MARK: - IListTableViewCell
+
+extension ListTableViewCell: IListTableViewCell {
+    func setName(_ name: String) {
+        self.nameLabel.text = name
+    }
+    
+    func setPhoneNumber(_ phoneNumber: String) {
+        self.phoneNumberLabel.text = Literal.phoneNumberText + phoneNumber
+    }
+    
+    func setSkills(_ skills: [String]) {
+        let skills = skills.joined(separator: ", ")
+        self.skillsLabel.text = Literal.skillsText + skills
     }
 }
