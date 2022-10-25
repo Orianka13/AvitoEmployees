@@ -15,10 +15,13 @@ class ListViewController: UIViewController {
     
     private enum Literal {
         static let navigationBarTitle = "Avito employees"
+        static let alertMessage = "Getting data ended with an error \n"
+        static let alertTitle = "Error"
+        static let alertAction = "Ok"
     }
     
     private var employees: [Employee] = []
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -51,14 +54,22 @@ class ListViewController: UIViewController {
                 }
                 
             case .failure(let error):
-                print("[NETWORK] error is: \(error)")
-//                DispatchQueue.main.async {
-//                    print("Загрузка закончена с ошибкой \(error.localizedDescription)")
-//                }
+                DispatchQueue.main.async { [weak self] in
+                    self?.showAlert(message: Literal.alertMessage + error.localizedDescription)
+                }
             }
         }
     }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: Literal.alertTitle, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: Literal.alertAction, style: .default)
+        alert.addAction(action)
+        self.present(alert, animated: true)
+    }
 }
+
+
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
 
