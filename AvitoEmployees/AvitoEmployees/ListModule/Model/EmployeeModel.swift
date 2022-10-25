@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Employee {
+struct EmployeeModel {
     let name: String
     let phoneNumber: String
     let skills: [String]
