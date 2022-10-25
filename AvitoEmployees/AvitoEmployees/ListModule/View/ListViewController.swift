@@ -12,7 +12,10 @@ class ListViewController: UIViewController {
     private enum Metrics {
         static let cellHeight: CGFloat = 150
     }
-    private let network = NetworkManager()
+    
+    private enum Literal {
+        static let navigationBarTitle = "Avito employees"
+    }
     
     private var employees: [Employee] = []
 
@@ -20,11 +23,14 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Avito employees"
+        
+        title = Literal.navigationBarTitle
+        
         loadDataNetwork()
     }
     
-    func loadDataNetwork() {
+    private func loadDataNetwork() {
+        let network = NetworkManager()
         let url = network.getUrl()
         
         network.loadData(url: url) { [weak self] (result: Result<DTOModel, Error>) in
@@ -46,26 +52,31 @@ class ListViewController: UIViewController {
                 
             case .failure(let error):
                 print("[NETWORK] error is: \(error)")
-                DispatchQueue.main.async {
-                    print("Загрузка закончена с ошибкой \(error.localizedDescription)")
-                }
+//                DispatchQueue.main.async {
+//                    print("Загрузка закончена с ошибкой \(error.localizedDescription)")
+//                }
             }
         }
     }
 }
+
+//MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         employees.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.identifier, for: indexPath) as! ListTableViewCell
         
-        let employee = self.employees[indexPath.row]
+        let sortedEmployee = self.employees.sorted(by: { $0.name < $1.name })
+        let employee = sortedEmployee[indexPath.row]
         
         cell.setName(employee.name)
         cell.setPhoneNumber(employee.phoneNumber)
+        
         cell.setSkills(employee.skills)
         
         return cell

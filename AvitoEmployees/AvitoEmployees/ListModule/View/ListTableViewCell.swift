@@ -13,7 +13,7 @@ protocol IListTableViewCell {
     func setSkills(_ skills: [String])
 }
 
-class ListTableViewCell: UITableViewCell {
+final class ListTableViewCell: UITableViewCell {
     
     static let identifier = "Cell"
     
@@ -30,24 +30,22 @@ class ListTableViewCell: UITableViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name"
         return label
     }()
     
     private lazy var phoneNumberLabel: UILabel = {
         let label = UILabel()
-        label.text = Literal.phoneNumberText
         return label
     }()
     
     private lazy var skillsLabel: UILabel = {
         let label = UILabel()
-        label.text = Literal.skillsText
         return label
     }()
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         addViews()
         setupViews()
     }
@@ -86,6 +84,7 @@ class ListTableViewCell: UITableViewCell {
 // MARK: - IListTableViewCell
 
 extension ListTableViewCell: IListTableViewCell {
+    
     func setName(_ name: String) {
         self.nameLabel.text = name
     }
