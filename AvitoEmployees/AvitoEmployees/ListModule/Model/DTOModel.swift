@@ -7,19 +7,24 @@
 
 import Foundation
 
-struct Company: Decodable {
-    
-    let company: String
+struct DTOModel: Decodable {
+    let company: CompanyData
+}
+
+struct CompanyData: Decodable {
     let name: String
     let employees: [EmployeeData]
-    
 }
 
 struct EmployeeData: Decodable {
-    
     let name: String
     let phoneNumber: String
     let skills: [String]
     
+    enum CodingKeys: String, CodingKey {
+        case name
+        case phoneNumber = "phone_number"
+        case skills
+    }
 }
 
