@@ -75,5 +75,4 @@ class ListTableViewCell: UITableViewCell {
         skils.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Metrics.standartSpacing).isActive = true
         skils.heightAnchor.constraint(equalToConstant: Metrics.heightOfLabel).isActive = true
     }
-    
 }
