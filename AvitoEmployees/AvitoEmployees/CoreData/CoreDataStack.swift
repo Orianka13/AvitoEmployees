@@ -23,20 +23,38 @@ final class CoreDataStack {
     
     // MARK: - Core Data Saving support
     
-    func remove(employee: Employee, completion: @escaping () -> Void) {
+    func remove(completion: @escaping () -> Void) {
+        
         self.persistentContainer.performBackgroundTask { context in
-            let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
-            //fetchRequest.predicate = NSPredicate(format: "\(#keyPath(Employee.uid)) = %@", employee.uid.uuidString)
-            if let object = try? context.fetch(fetchRequest).first {
-                context.delete(object)
-                do {
-                    try context.save()
-                    DispatchQueue.main.async { completion() }
-                } catch let error as NSError {
-                    print(error.localizedDescription)
-                }
-            }
+        
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Employee")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+            print("Все удадлили !!!!!")
+            
+            completion()
+            
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
+        }
+        
+//        self.persistentContainer.performBackgroundTask { context in
+//            let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+//            //fetchRequest.predicate = NSPredicate(format: "\(#keyPath(Employee.uid)) = %@", employee.uid.uuidString)
+//            if let object = try? context.fetch(fetchRequest).first {
+//                context.delete(object)
+//                do {
+//                    try context.save()
+//                    DispatchQueue.main.async { completion() }
+//                } catch let error as NSError {
+//                    print(error.localizedDescription)
+//                }
+//            }
+//        }
     }
     
     func update(employee: Employee) {

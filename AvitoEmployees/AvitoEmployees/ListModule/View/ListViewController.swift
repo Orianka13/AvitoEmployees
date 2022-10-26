@@ -28,18 +28,18 @@ class ListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        fetchData()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = Literal.navigationBarTitle
         
-        //loadDataNetwork()
+        fetchData()
+
+        if employees.isEmpty {
+            loadDataNetwork()
+            deleteCashFromeCD()
+        }
+        
     }
     
     private func fetchData() {
@@ -51,7 +51,7 @@ class ListViewController: UIViewController {
             employeesCD = try context.fetch(fetchRequest)
             var fetchedEmployees = [EmployeeModel]()
             
-            employeesCD.forEach({ [weak self] employee in
+            employeesCD.forEach { employee in
                 
                 guard let name = employee.name else { return }
                 guard let phoneNumber = employee.phoneNumber else { return }
@@ -62,9 +62,13 @@ class ListViewController: UIViewController {
                                                       skills: skills)
                 
                 fetchedEmployees.append(modelObject)
-                self?.employees = fetchedEmployees
-                
-            })
+            }
+            employees = fetchedEmployees
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+            
         } catch let error as NSError {
             DispatchQueue.main.async { [weak self] in
                 self?.showAlert(message: error.localizedDescription)
@@ -101,6 +105,7 @@ class ListViewController: UIViewController {
                     
                     DispatchQueue.main.async {
                         self?.tableView.reloadData()
+                        self?.showAlert(message: "Data is loaded!")
                     }
                 }
                 
@@ -112,14 +117,24 @@ class ListViewController: UIViewController {
         }
     }
     
+    private func deleteCashFromeCD() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3600) { [weak self] in
+            self?.coreDS.remove(completion: {
+                self?.fetchData()
+                
+                DispatchQueue.main.async {
+                    self?.showAlert(message: "Data was deleted!")
+                }
+            })
+        }
+    }
+    
     private func showAlert(message: String) {
         let alert = UIAlertController(title: Literal.alertTitle, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Literal.alertAction, style: .default)
         alert.addAction(action)
         self.present(alert, animated: true)
     }
-    
-  
     
     private func saveEmployee(name: String, phoneNumber: String, skills: [String]) {
         let context = getContext()
