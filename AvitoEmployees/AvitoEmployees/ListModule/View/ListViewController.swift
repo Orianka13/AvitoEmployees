@@ -39,7 +39,6 @@ class ListViewController: UIViewController {
             loadDataNetwork()
             deleteCashFromeCD()
         }
-        
     }
     
     private func fetchData() {
@@ -64,6 +63,10 @@ class ListViewController: UIViewController {
                 fetchedEmployees.append(modelObject)
             }
             employees = fetchedEmployees
+            
+            if !fetchedEmployees.isEmpty {
+                deleteCashFromeCD()
+            }
             
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
@@ -118,7 +121,7 @@ class ListViewController: UIViewController {
     }
     
     private func deleteCashFromeCD() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3600) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
             self?.coreDS.remove(completion: {
                 self?.fetchData()
                 
