@@ -69,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				5965FAC12906E44F009D4547 /* SupportingFiles */,
+				5965FAD82909A35D009D4547 /* Managers */,
 				5965FAD229080D26009D4547 /* CoreData */,
 				5965FAC22906E466009D4547 /* ListModule */,
 				5965FAB32906E0FA009D4547 /* Main.storyboard */,
@@ -93,7 +94,6 @@
 			children = (
 				5965FAC92906E58C009D4547 /* View */,
 				5965FACA2906E597009D4547 /* Model */,
-				5965FACF2907047D009D4547 /* NetworkManager.swift */,
 			);
 			path = ListModule;
 			sourceTree = "<group>";
@@ -123,6 +123,14 @@
 				5965FAD629080F5E009D4547 /* CoreDataStack.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		5965FAD82909A35D009D4547 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5965FACF2907047D009D4547 /* NetworkManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
