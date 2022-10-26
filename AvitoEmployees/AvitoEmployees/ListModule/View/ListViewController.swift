@@ -23,16 +23,59 @@ class ListViewController: UIViewController {
     }
     
     private var employees: [EmployeeModel] = []
+    private var employeesCD: [Employee] = []
     private let coreDS = CoreDataStack()
     
     @IBOutlet weak var tableView: UITableView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = Literal.navigationBarTitle
         
-        loadDataNetwork()
+        //loadDataNetwork()
+    }
+    
+    private func fetchData() {
+        
+        let context = getContext()
+        let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+        
+        do {
+            employeesCD = try context.fetch(fetchRequest)
+            var fetchedEmployees = [EmployeeModel]()
+            
+            employeesCD.forEach({ [weak self] employee in
+                
+                guard let name = employee.name else { return }
+                guard let phoneNumber = employee.phoneNumber else { return }
+                guard let skills = employee.skills else { return }
+                
+                let modelObject = EmployeeModel(name: name,
+                                                      phoneNumber: phoneNumber,
+                                                      skills: skills)
+                
+                fetchedEmployees.append(modelObject)
+                self?.employees = fetchedEmployees
+                
+            })
+        } catch let error as NSError {
+            DispatchQueue.main.async { [weak self] in
+                self?.showAlert(message: error.localizedDescription)
+            }
+            
+        }
+        
+    }
+    
+    private func getContext() -> NSManagedObjectContext {
+        return coreDS.persistentContainer.viewContext
     }
     
     private func loadDataNetwork() {
@@ -46,10 +89,11 @@ class ListViewController: UIViewController {
                 let company = model.company
                 let employees = company.employees
                 employees.forEach { employee in
-                    let model = EmployeeModel(name: employee.name,
+                    let loadedEmployee = EmployeeModel(name: employee.name,
                                          phoneNumber: employee.phoneNumber,
                                          skills: employee.skills)
-                    self?.employees.append(model)
+                    
+                    self?.employees.append(loadedEmployee)
                     
                     self?.saveEmployee(name: employee.name,
                                        phoneNumber: employee.phoneNumber,
@@ -75,9 +119,7 @@ class ListViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    private func getContext() -> NSManagedObjectContext {
-        coreDS.persistentContainer.viewContext
-    }
+  
     
     private func saveEmployee(name: String, phoneNumber: String, skills: [String]) {
         let context = getContext()
@@ -89,6 +131,7 @@ class ListViewController: UIViewController {
         
         do {
             try context.save()
+            employeesCD.append(taskObject)
             DispatchQueue.main.async { [weak self] in
                 self?.showAlert(message: "Data saved!")
             }
@@ -96,8 +139,6 @@ class ListViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 self?.showAlert(message: error.localizedDescription)
             }
-            
-            //print(error.localizedDescription)
         }
     }
 }
