@@ -147,6 +147,9 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.setName(employee.name)
         cell.setPhoneNumber(employee.phoneNumber)
         cell.setSkills(employee.skills)
+        
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        
         return cell
     }
     
