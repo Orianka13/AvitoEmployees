@@ -116,7 +116,7 @@ private extension ListViewController {
     }
     
     func deleteCashFromeCD() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3600) { [weak self] in
             self?.coreDS.remove {
                 self?.fetchData()
                 self?.loadDataNetwork()
