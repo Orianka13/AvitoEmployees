@@ -19,15 +19,6 @@ final class NetworkManager {
     }
     
     private let session = URLSession(configuration: URLSessionConfiguration.default)
-//
-//    init(configuration: URLSessionConfiguration? = nil) {
-//        if let configuration = configuration {
-//            self.session = URLSession(configuration: configuration)
-//        }
-//        else {
-//            self.session = URLSession(configuration: URLSessionConfiguration.default)
-//        }
-//    }
 }
 
 //MARK: INetworkManager

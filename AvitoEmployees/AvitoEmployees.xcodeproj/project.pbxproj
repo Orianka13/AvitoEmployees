@@ -68,8 +68,8 @@
 		5965FAAC2906E0FA009D4547 /* AvitoEmployees */ = {
 			isa = PBXGroup;
 			children = (
-				5965FAD229080D26009D4547 /* CoreData */,
 				5965FAC12906E44F009D4547 /* SupportingFiles */,
+				5965FAD229080D26009D4547 /* CoreData */,
 				5965FAC22906E466009D4547 /* ListModule */,
 				5965FAB32906E0FA009D4547 /* Main.storyboard */,
 				5965FAB62906E100009D4547 /* Assets.xcassets */,

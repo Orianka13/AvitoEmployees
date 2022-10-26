@@ -45,19 +45,19 @@ final class ListTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         addViews()
         setupViews()
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
+}
+
+//MARK: - Private extension
+
+private extension ListTableViewCell {
+   
     private func addViews() {
-        self.addSubview(nameLabel)
-        self.addSubview(phoneNumberLabel)
-        self.addSubview(skillsLabel)
+        addSubview(nameLabel)
+        addSubview(phoneNumberLabel)
+        addSubview(skillsLabel)
     }
     
     private func setupViews() {
@@ -86,15 +86,15 @@ final class ListTableViewCell: UITableViewCell {
 extension ListTableViewCell: IListTableViewCell {
     
     func setName(_ name: String) {
-        self.nameLabel.text = name
+        nameLabel.text = name
     }
     
     func setPhoneNumber(_ phoneNumber: String) {
-        self.phoneNumberLabel.text = Literal.phoneNumberText + phoneNumber
+        phoneNumberLabel.text = Literal.phoneNumberText + phoneNumber
     }
     
     func setSkills(_ skills: [String]) {
         let skills = skills.joined(separator: ", ")
-        self.skillsLabel.text = Literal.skillsText + skills
+        skillsLabel.text = Literal.skillsText + skills
     }
 }

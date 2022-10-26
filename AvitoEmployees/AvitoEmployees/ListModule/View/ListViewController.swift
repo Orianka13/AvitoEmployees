@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
     
     private enum Metrics {
         static let cellHeight: CGFloat = 150
@@ -34,16 +34,18 @@ class ListViewController: UIViewController {
         title = Literal.navigationBarTitle
         
         fetchData()
-
         if employees.isEmpty {
             loadDataNetwork()
             deleteCashFromeCD()
         }
     }
+}
+
+// MARK: - Private extension
+private extension ListViewController {
     
-    private func fetchData() {
-        
-        let context = getContext()
+    func fetchData() {
+        let context = coreDS.persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
         
         do {
@@ -51,7 +53,6 @@ class ListViewController: UIViewController {
             var fetchedEmployees = [EmployeeModel]()
             
             employeesCD.forEach { employee in
-                
                 guard let name = employee.name else { return }
                 guard let phoneNumber = employee.phoneNumber else { return }
                 guard let skills = employee.skills else { return }
@@ -59,7 +60,6 @@ class ListViewController: UIViewController {
                 let modelObject = EmployeeModel(name: name,
                                                       phoneNumber: phoneNumber,
                                                       skills: skills)
-                
                 fetchedEmployees.append(modelObject)
             }
             employees = fetchedEmployees
@@ -67,32 +67,23 @@ class ListViewController: UIViewController {
             if !fetchedEmployees.isEmpty {
                 deleteCashFromeCD()
             }
-            
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
             }
-            
         } catch let error as NSError {
             DispatchQueue.main.async { [weak self] in
-                self?.showAlert(message: error.localizedDescription)
+                self?.showAlert(message: Literal.alertMessage + error.localizedDescription)
             }
-            
         }
-        
     }
     
-    private func getContext() -> NSManagedObjectContext {
-        return coreDS.persistentContainer.viewContext
-    }
-    
-    private func loadDataNetwork() {
+    func loadDataNetwork() {
         let network = NetworkManager()
         let url = network.getUrl()
         
         network.loadData(url: url) { [weak self] (result: Result<DTOModel, Error>) in
             switch result {
             case .success(let model):
-                
                 let company = model.company
                 let employees = company.employees
                 employees.forEach { employee in
@@ -102,16 +93,20 @@ class ListViewController: UIViewController {
                     
                     self?.employees.append(loadedEmployee)
                     
-                    self?.saveEmployee(name: employee.name,
-                                       phoneNumber: employee.phoneNumber,
-                                       skills: employee.skills)
-                    
+                    self?.coreDS.saveEmployee(name: employee.name,
+                                              phoneNumber: employee.phoneNumber,
+                                              skills: employee.skills,
+                                              doCompletion: { taskObject in
+                        self?.employeesCD.append(taskObject)
+                    }, errorCompletion: { error in
+                        DispatchQueue.main.async {
+                            self?.showAlert(message: Literal.alertMessage + error.localizedDescription)
+                        }
+                    })
                     DispatchQueue.main.async {
                         self?.tableView.reloadData()
-                        self?.showAlert(message: "Data is loaded!")
                     }
                 }
-                
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.showAlert(message: Literal.alertMessage + error.localizedDescription)
@@ -120,53 +115,25 @@ class ListViewController: UIViewController {
         }
     }
     
-    private func deleteCashFromeCD() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-            self?.coreDS.remove(completion: {
+    func deleteCashFromeCD() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3600) { [weak self] in
+            self?.coreDS.remove {
                 self?.fetchData()
-                
-                DispatchQueue.main.async {
-                    self?.showAlert(message: "Data was deleted!")
-                }
-            })
+            }
         }
     }
     
-    private func showAlert(message: String) {
+    func showAlert(message: String) {
         let alert = UIAlertController(title: Literal.alertTitle, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Literal.alertAction, style: .default)
         alert.addAction(action)
         self.present(alert, animated: true)
     }
-    
-    private func saveEmployee(name: String, phoneNumber: String, skills: [String]) {
-        let context = getContext()
-        guard let entity = NSEntityDescription.entity(forEntityName: Employee.description(), in: context) else { return }
-        let taskObject = Employee(entity: entity, insertInto: context)
-        taskObject.name = name
-        taskObject.phoneNumber = phoneNumber
-        taskObject.skills = skills
-        
-        do {
-            try context.save()
-            employeesCD.append(taskObject)
-            DispatchQueue.main.async { [weak self] in
-                self?.showAlert(message: "Data saved!")
-            }
-        } catch let error as NSError {
-            DispatchQueue.main.async { [weak self] in
-                self?.showAlert(message: error.localizedDescription)
-            }
-        }
-    }
 }
-
-
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         employees.count
     }
@@ -179,9 +146,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.setName(employee.name)
         cell.setPhoneNumber(employee.phoneNumber)
-        
         cell.setSkills(employee.skills)
-        
         return cell
     }
     

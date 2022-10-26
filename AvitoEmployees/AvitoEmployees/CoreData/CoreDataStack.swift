@@ -9,64 +9,49 @@ import Foundation
 import CoreData
 
 final class CoreDataStack {
-     
+    
     lazy var persistentContainer: NSPersistentContainer = {
         
         let container = NSPersistentContainer(name: "AvitoEmployees")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                print("Unresolved error \(error), \(error.userInfo)")
             }
         })
         return container
     }()
     
-    // MARK: - Core Data Saving support
-    
     func remove(completion: @escaping () -> Void) {
-        
         self.persistentContainer.performBackgroundTask { context in
-        
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Employee")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-        do {
-            try context.execute(deleteRequest)
-            try context.save()
-            print("Все удадлили !!!!!")
             
-            completion()
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Employee")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
             
-        } catch let error as NSError {
-            print(error.localizedDescription)
+            do {
+                try context.execute(deleteRequest)
+                try context.save()
+                completion()
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
         }
-        }
-        
-//        self.persistentContainer.performBackgroundTask { context in
-//            let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
-//            //fetchRequest.predicate = NSPredicate(format: "\(#keyPath(Employee.uid)) = %@", employee.uid.uuidString)
-//            if let object = try? context.fetch(fetchRequest).first {
-//                context.delete(object)
-//                do {
-//                    try context.save()
-//                    DispatchQueue.main.async { completion() }
-//                } catch let error as NSError {
-//                    print(error.localizedDescription)
-//                }
-//            }
-//        }
     }
     
-    func update(employee: Employee) {
-        self.persistentContainer.performBackgroundTask { context in
-            let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
-            //fetchRequest.predicate = NSPredicate(format: "\(#keyPath(Employee.uid)) = %@", employee.uid.uuidString)
-            if let object = try? context.fetch(fetchRequest).first {
-                object.name = employee.name
-                object.phoneNumber = employee.phoneNumber
-                object.skills = employee.skills
-            }
-            try? context.save()
+    func saveEmployee(name: String, phoneNumber: String, skills: [String], doCompletion: @escaping (Employee) -> Void, errorCompletion: @escaping (NSError) -> Void) {
+        
+        let context = persistentContainer.viewContext
+        guard let entity = NSEntityDescription.entity(forEntityName: Employee.description(), in: context) else { return }
+        
+        let taskObject = Employee(entity: entity, insertInto: context)
+        taskObject.name = name
+        taskObject.phoneNumber = phoneNumber
+        taskObject.skills = skills
+        
+        do {
+            try context.save()
+            doCompletion(taskObject)
+        } catch let error as NSError {
+            errorCompletion(error)
         }
     }
     
@@ -77,7 +62,7 @@ final class CoreDataStack {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                print("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
