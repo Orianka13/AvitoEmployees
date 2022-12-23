@@ -14,9 +14,7 @@ protocol INetworkManager {
 
 final class NetworkManager {
     
-    private enum Literal {
-        static let url = "https://run.mocky.io/v3/1d1cb4ec-73db-4762-8c4b-0b8aa3cecd4c"
-    }
+    private let url = "https://run.mocky.io/v3/1d1cb4ec-73db-4762-8c4b-0b8aa3cecd4c"
     
     private let session = URLSession(configuration: URLSessionConfiguration.default)
 }
@@ -45,7 +43,7 @@ extension NetworkManager: INetworkManager {
     }
     
     func getUrl() -> String {
-        return Literal.url
+        url
     }
 }
     
