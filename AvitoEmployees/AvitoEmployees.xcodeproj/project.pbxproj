@@ -14,8 +14,6 @@
 		5965FABA2906E100009D4547 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5965FAB82906E100009D4547 /* LaunchScreen.storyboard */; };
 		5965FAC62906E55B009D4547 /* EmployeeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAC52906E55B009D4547 /* EmployeeModel.swift */; };
 		5965FAC82906E573009D4547 /* DTOModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAC72906E573009D4547 /* DTOModel.swift */; };
-		5965FACC2906E6A1009D4547 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FACB2906E6A1009D4547 /* ListViewController.swift */; };
-		5965FACE2906E6C0009D4547 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FACD2906E6C0009D4547 /* ListTableViewCell.swift */; };
 		5965FAD02907047D009D4547 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FACF2907047D009D4547 /* NetworkManager.swift */; };
 		5965FAD529080D43009D4547 /* AvitoEmployees.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAD329080D43009D4547 /* AvitoEmployees.xcdatamodeld */; };
 		5965FAD729080F5E009D4547 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5965FAD629080F5E009D4547 /* CoreDataStack.swift */; };
@@ -32,8 +30,6 @@
 		5965FABB2906E100009D4547 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5965FAC52906E55B009D4547 /* EmployeeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeModel.swift; sourceTree = "<group>"; };
 		5965FAC72906E573009D4547 /* DTOModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOModel.swift; sourceTree = "<group>"; };
-		5965FACB2906E6A1009D4547 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		5965FACD2906E6C0009D4547 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		5965FACF2907047D009D4547 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5965FAD429080D43009D4547 /* AvitoEmployees.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AvitoEmployees.xcdatamodel; sourceTree = "<group>"; };
 		5965FAD629080F5E009D4547 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -73,10 +69,10 @@
 				5965FAC12906E44F009D4547 /* SupportingFiles */,
 				5965FAD82909A35D009D4547 /* Managers */,
 				5965FAD229080D26009D4547 /* CoreData */,
-				5965FAC22906E466009D4547 /* ListModule */,
-				5965FAB32906E0FA009D4547 /* Main.storyboard */,
+				5965FAC92906E58C009D4547 /* ViewControllers */,
+				5965FACA2906E597009D4547 /* Models */,
+				59C81831295602B200CDB2B4 /* Storyboards */,
 				5965FAB62906E100009D4547 /* Assets.xcassets */,
-				5965FAB82906E100009D4547 /* LaunchScreen.storyboard */,
 				5965FABB2906E100009D4547 /* Info.plist */,
 			);
 			path = AvitoEmployees;
@@ -91,21 +87,10 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
-		5965FAC22906E466009D4547 /* ListModule */ = {
-			isa = PBXGroup;
-			children = (
-				5965FAC92906E58C009D4547 /* ViewControllers */,
-				5965FACA2906E597009D4547 /* Models */,
-			);
-			path = ListModule;
-			sourceTree = "<group>";
-		};
 		5965FAC92906E58C009D4547 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				5965FACB2906E6A1009D4547 /* ListViewController.swift */,
 				59C8182F2955FD7E00CDB2B4 /* TableListViewController.swift */,
-				5965FACD2906E6C0009D4547 /* ListTableViewCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -134,6 +119,15 @@
 				5965FACF2907047D009D4547 /* NetworkManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		59C81831295602B200CDB2B4 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				5965FAB32906E0FA009D4547 /* Main.storyboard */,
+				5965FAB82906E100009D4547 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,14 +203,12 @@
 			files = (
 				5965FAAE2906E0FA009D4547 /* AppDelegate.swift in Sources */,
 				5965FAD529080D43009D4547 /* AvitoEmployees.xcdatamodeld in Sources */,
-				5965FACC2906E6A1009D4547 /* ListViewController.swift in Sources */,
 				59C818302955FD7E00CDB2B4 /* TableListViewController.swift in Sources */,
 				5965FAD729080F5E009D4547 /* CoreDataStack.swift in Sources */,
 				5965FAC82906E573009D4547 /* DTOModel.swift in Sources */,
 				5965FAD02907047D009D4547 /* NetworkManager.swift in Sources */,
 				5965FAC62906E55B009D4547 /* EmployeeModel.swift in Sources */,
 				5965FAB02906E0FA009D4547 /* SceneDelegate.swift in Sources */,
-				5965FACE2906E6C0009D4547 /* ListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
