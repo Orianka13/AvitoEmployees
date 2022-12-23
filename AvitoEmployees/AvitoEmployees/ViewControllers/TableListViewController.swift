@@ -33,31 +33,30 @@ class TableListViewController: UITableViewController {
             deleteCashFromeCD()
         }
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         employees.count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        2
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let sortedEmployee = self.employees.sorted(by: { $0.name < $1.name })
         let employee = sortedEmployee[indexPath.section]
- 
+        
         if indexPath.row == 0 {
             cell.textLabel?.text = "Phone number: " + employee.phoneNumber
         } else {
             let skills = employee.skills.joined(separator: ", ")
             cell.textLabel?.text = "Skills: " + skills
         }
-        
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
         return cell
@@ -85,8 +84,8 @@ private extension TableListViewController {
                 guard let skills = employee.skills else { return }
                 
                 let modelObject = EmployeeModel(name: name,
-                                                      phoneNumber: phoneNumber,
-                                                      skills: skills)
+                                                phoneNumber: phoneNumber,
+                                                skills: skills)
                 fetchedEmployees.append(modelObject)
             }
             employees = fetchedEmployees
@@ -115,8 +114,8 @@ private extension TableListViewController {
                 let employees = company.employees
                 employees.forEach { employee in
                     let loadedEmployee = EmployeeModel(name: employee.name,
-                                         phoneNumber: employee.phoneNumber,
-                                         skills: employee.skills)
+                                                       phoneNumber: employee.phoneNumber,
+                                                       skills: employee.skills)
                     
                     self?.employees.append(loadedEmployee)
                     
@@ -155,6 +154,6 @@ private extension TableListViewController {
         let alert = UIAlertController(title: Literal.alertTitle, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Literal.alertAction, style: .default)
         alert.addAction(action)
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 }
